@@ -41,7 +41,7 @@ public class DataAdapter extends ArrayAdapter<Task> {
         Task currentTask = tasks.get(position);
         // Set the TextView to show the food
 
-        tvID.setText(currentTask.getId());
+        tvID.setText(currentTask.getId() + "");
         tvDesc.setText(currentTask.getDescription());
         tvDate.setText(currentTask.getDate());
 

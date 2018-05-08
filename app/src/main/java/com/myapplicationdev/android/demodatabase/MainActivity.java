@@ -22,13 +22,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //task = new ArrayList<Task>();
-        aa = new DataAdapter(MainActivity.this, R.layout.row, task);
+
 
         btnInsert = (Button) findViewById(R.id.btnInsert);
         btnGetTasks = (Button) findViewById(R.id.btnGetTasks);
         tvResults = (TextView)  findViewById(R.id.tvResults);
         lv = (ListView) this.findViewById(R.id.lv);
+
+        task = new ArrayList<Task>();
+
+        aa = new DataAdapter(MainActivity.this, R.layout.row, task);
+        lv.setAdapter(aa);
+
 
         btnInsert.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -53,16 +58,18 @@ public class MainActivity extends AppCompatActivity {
 
                 // Insert a task
                 ArrayList<Task> data = db.getTasks();
+                task.clear();
+                task.addAll(data);
                 db.close();
 
                 String txt = "";
                 for (int i = 0; i < data.size(); i++) {
                     txt += i + ". " + data.get(i).getDescription() + "\n";
-                    task.add(new Task(data.get(i).getId(), data.get(i).getDescription(), data.get(i).getDate()));
+                    Log.d("Database Content", data.get(i).getId() +". "+data.get(i).getDate()+ ". " + data.get(i).getDescription() + "\n");
                 }
-                lv.setAdapter(aa);
+                aa.notifyDataSetChanged();
                 tvResults.setText(txt);
-                Log.d("Database Content", data.get(1).getId() +". "+data.get(1).getDescription()+ ". " + data.get(1).getDate());
+
             }
         });
 
